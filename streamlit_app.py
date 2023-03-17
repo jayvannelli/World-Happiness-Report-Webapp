@@ -1,4 +1,5 @@
 import streamlit as st
+import plost
 from src.data import get_data
 
 POSSIBLE_DISPLAY_VALUES = [
@@ -6,7 +7,6 @@ POSSIBLE_DISPLAY_VALUES = [
     "Freedom to make life choices", "Generosity", "Perceptions of corruption",
     "Positive affect", "Negative affect", "Confidence in national government"
 ]
-
 
 
 def main():
@@ -21,6 +21,16 @@ def main():
         st.dataframe(df)
 
     st.write("---")
+
+    query_2021 = df.query("Year == 2021")
+
+    plost.bar_chart(
+        query_2021.nlargest(20, columns="Life Ladder"),
+        title="Top 20 countries with highest 'Life Ladder' ranking in 2021.",
+        bar="Country name",
+        value="Life Ladder",
+        direction="horizontal",
+    )
 
     left_column, right_column = st.columns(2)
     with left_column:
