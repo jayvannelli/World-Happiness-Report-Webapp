@@ -26,9 +26,25 @@ def main():
 
     plost.bar_chart(
         query_2021.nlargest(20, columns="Life Ladder"),
-        title="Top 20 countries with highest 'Life Ladder' ranking in 2021.",
+        title="20 countries with highest 'Life Ladder' ranking in 2021.",
         bar="Country name",
         value="Life Ladder",
+        direction="horizontal",
+    )
+
+    plost.bar_chart(
+        query_2021.nlargest(20, columns="Confidence in national government"),
+        title="20 countries with HIGHEST confidence in national government (2021).",
+        bar="Country name",
+        value="Confidence in national government",
+        direction="horizontal",
+    )
+
+    plost.bar_chart(
+        query_2021.nsmallest(10, columns="Confidence in national government"),
+        title="10 countries with LOWEST confidence in national government (2021).",
+        bar="Country name",
+        value="Confidence in national government",
         direction="horizontal",
     )
 
