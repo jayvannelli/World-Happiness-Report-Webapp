@@ -50,15 +50,37 @@ def main():
 
     left_column, right_column = st.columns(2)
     with left_column:
-        country = st.selectbox("Select country", options=df['Country name'].unique())
+        country = st.selectbox("Select country",
+                               options=df['Country name'].unique(),
+                               key="country_single_display_value")
 
     with right_column:
         display_value = st.selectbox("Select value to display",
-                                     options=POSSIBLE_DISPLAY_VALUES)
+                                     options=POSSIBLE_DISPLAY_VALUES,
+                                     key="single_display_values")
 
     country_df = df.loc[df['Country name'] == country].set_index('Year')
     st.subheader(f"{country} {display_value} ({country_df.index[0]} - {country_df.index[-1]})")
     st.bar_chart(country_df, y=display_value)
+
+    left_column, right_column = st.columns(2)
+    with left_column:
+        country = st.selectbox("Select country",
+                               options=df['Country name'].unique(),
+                               key="country_multi_display_values")
+
+    with right_column:
+        display_values = st.multiselect("Select values to display",
+                                        options=POSSIBLE_DISPLAY_VALUES,
+                                        key="multi_display_values")
+
+    if len(display_values) == 0:
+        st.error("Please select one, or more, display value(s).")
+    elif len(display_values) > 6:
+        st.warning("You cannot select more than 6 display values at this time.")
+    else:
+        country_df = df.loc[df['Country name'] == country].set_index('Year')
+        st.bar_chart(country_df, y=display_values)
 
 
 if __name__ == "__main__":
